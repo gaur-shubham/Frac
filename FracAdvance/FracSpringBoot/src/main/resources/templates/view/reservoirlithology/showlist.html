@@ -1,0 +1,86 @@
+<script>
+$("#rl_showEditbt").click(function(){
+	url="reservoirLithology/showedit";
+	$.ajax({
+		url:url,
+		data:{pid:$("#rl_showpid").val()},
+		success:function(res){
+			$("#loadtable").html(res);
+			$("#exampleModal").show();
+		}
+	});
+});
+</script>
+showlist
+<section class="content">
+<li class="list-group-item">
+<input type="hidden" id="rl_showpid" th:value="${pid}">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10" style="overflow-x: auto; overflow-y: hidden;">
+ </br>
+
+		
+			</div>
+			<br>
+<table id="example2" class="table table-hover table-bordered" >
+                          <thead  th:if="${session.unitType=='Metric'}"><tr>
+								<th style="text-align:center;">Stage<br>&nbsp;&nbsp;&nbsp;</th>
+									<th style="text-align: center;">&nbsp;&nbsp;&nbsp;TVD&nbsp;&nbsp;&nbsp;<br>(meter)</th>
+								<th nowrap style="text-align: center;">&nbsp;&nbsp;&nbsp;MD&nbsp;&nbsp;&nbsp;<br>(meter)</th>
+								<th nowrap style="text-align: center;">Layer
+									Thickness<br>(meter)</th>
+								<th nowrap style="text-align: center;">Rock
+									Type<br>&nbsp;</th>
+								<th nowrap style="text-align: center;">Permiability<br>(meter)</th>
+								<th nowrap style="text-align: center;">Porosity<br>&nbsp;</th>
+								<th nowrap style="text-align: center;">Leakoff
+									Coefficient<br>meter</th>
+								<th nowrap style="	text-align: center;">Youngs
+									Modulus meter<br>&nbsp;</th>
+							</tr>
+						</thead>
+						
+			  <!-- This is for the user th:if="${buttonValue=='userDiv'}" -->		
+						
+<!-- 					<thead  if=[[${session.unitType}]]=="Field">
+ -->					<thead  th:if="${session.unitType=='Field'}">
+					
+					<tr>
+								<th style="text-align: center;">Stage different unit<br>&nbsp;&nbsp;&nbsp;</th>
+									<th style="text-align: center;">&nbsp;&nbsp;&nbsp;TVD&nbsp;&nbsp;&nbsp;<br>(ft)</th>
+								<th nowrap style="text-align: center;">&nbsp;&nbsp;&nbsp;MD&nbsp;&nbsp;&nbsp;<br>(ft)</th>
+								<th nowrap style="text-align: center;">Layer different unit
+									Thickness<br>(ft)</th>
+								<th nowrap style="text-align: center;">Rock different unit
+									Type<br>&nbsp;</th>
+								<th nowrap style="text-align: center;">Permiability<br>(md)</th>
+								<th nowrap style="text-align: center;">Porosity<br>&nbsp;</th>
+								<th nowrap style="text-align: center;">Leakoff
+									Coefficient<br>(ft/min^5)</th>
+								<th nowrap style="	text-align: center;">Youngs
+									Modulus<br>&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="list:${list}">
+								<th style="text-align:center;" th:text="${list.fracstage}"></th>
+								<td th:text="${list.tvd}"></td>
+								<td th:text="${list.md}"></td>
+								<td th:text="${list.layer}"></td>
+								<td th:text="${list.rock}"></td>
+								<td th:text="${list.perm}"></td>
+								<td th:text="${list.poro}"></td>
+								<td th:text="${list.leakoff}"></td>
+								<td th:text="${list.youngs}"></td>
+							</tr>
+							</tbody>
+                        </table>
+</div>
+</div>
+<br><center>
+	<input id="rl_showEditbt" class="btn btn-primary" type="submit"
+		value="Edit" style="width:10%"/>
+</center>
+</li>
+</section>
