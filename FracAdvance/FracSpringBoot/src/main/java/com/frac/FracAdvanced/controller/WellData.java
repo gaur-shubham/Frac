@@ -3,12 +3,15 @@ package com.frac.FracAdvanced.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.frac.FracAdvanced.model.ProjectDetails;
 import com.frac.FracAdvanced.model.WellDataModel;
 import com.frac.FracAdvanced.service.WellDataService;
 
@@ -16,15 +19,28 @@ import com.frac.FracAdvanced.service.WellDataService;
 public class WellData {
 	@Autowired
 	WellDataService service;
+	
+	@Autowired
+	HttpSession httpSession;
 
 		@RequestMapping("/wellData")
 		public String show(@RequestParam("pro_Id") String pid,
 				           Model model) throws Exception
 		{
 		                   List<WellDataModel> list4=service.wellUpdateMethod1(pid);
+		                   			
 		                   model.addAttribute("list",list4);
-		                   model.addAttribute("pid",pid);			
-			               return "view/WellDataFolder/GetData";}
+		                   model.addAttribute("pid",pid);
+		                  
+		                   ProjectDetails details= (ProjectDetails)httpSession.getAttribute("ProjectDetail");
+		                   details.getUnitType();
+		                   if(details.getUnitType().equalsIgnoreCase("Metric"))
+		                   {return "view/WellDataFolder/GetDataMetric";}		                   
+		                   else if(details.getUnitType().equalsIgnoreCase("Field"))
+		                   { return "view/WellDataFolder/GetData";}
+		                   return null;
+		                   
+			               }
 		
 		
 		@RequestMapping("/updateWellData")
@@ -38,7 +54,13 @@ public class WellData {
 			model.addAttribute("list",list4);
 			model.addAttribute("pid",pid);
 		
-			return "view/WellDataFolder/GetData";
+			ProjectDetails details= (ProjectDetails)httpSession.getAttribute("ProjectDetail");
+            details.getUnitType();
+            if(details.getUnitType().equalsIgnoreCase("Metric"))
+            {return "view/WellDataFolder/GetDataMetric";}		                   
+            else if(details.getUnitType().equalsIgnoreCase("Field"))
+            { return "view/WellDataFolder/GetData";}
+            return null;
 		}
 		
 		@RequestMapping("/updateWellData2")
@@ -51,7 +73,13 @@ public class WellData {
 			List<WellDataModel> list5=service.wellUpdateMethod1(pid);
 			model.addAttribute("list", list5);		
 			model.addAttribute("pid",pid);
-			return "view/WellDataFolder/wellDataShow";
+			ProjectDetails details= (ProjectDetails)httpSession.getAttribute("ProjectDetail");
+            details.getUnitType();
+            if(details.getUnitType().equalsIgnoreCase("Metric"))
+            {return "view/WellDataFolder/wellDataShowMetric";}		                   
+            else if(details.getUnitType().equalsIgnoreCase("Field"))
+            { return "view/WellDataFolder/wellDataShow";}
+            return null;
 		}
 		
 }

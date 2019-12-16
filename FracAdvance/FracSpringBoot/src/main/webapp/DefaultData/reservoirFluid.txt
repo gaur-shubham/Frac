@@ -36,5 +36,5 @@ Fracture Height=0.0
 Fracture Width =0.0
 Volume of Injection=0.0
 Areal Proppant Conc=0.0
-Max Proppant=0.0
+Injection Rate=0.0
 Gel Damage=0.0

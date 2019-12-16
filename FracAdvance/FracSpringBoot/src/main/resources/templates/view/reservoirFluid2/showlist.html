@@ -164,7 +164,7 @@
 							<tbody th:if="${list.empty}" id="body">
 							<tbody>
 								<tr th:each="list,iterStat : ${list}">
-									<th th:text="${list.param}+${rfplist[iterStat.index]}"></th>
+									<th th:text="${list.param} + ${rfplist[iterStat.index]}"></th>
 									<td><input type="text" name="value"
 										th:value="${list.value}"
 										class="time form-control inputvalueclass"> <input

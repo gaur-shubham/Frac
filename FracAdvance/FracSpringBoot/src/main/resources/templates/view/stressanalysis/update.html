@@ -48,12 +48,12 @@ thead, tbody tr {
 <form id="sa_impmainform">
 <input type="hidden" id="sa_uppid" name="sa_uppid" th:value="${pid}">
                         <table id="sa_upexample2" class="table table-hover table-bordered" >
-                             <thead   th:if="${session.unitType=='Metric'}" class="bg-gray">
+                              <thead   th:if="${session.unitType=='Metric'}" class="bg-gray">
 							<tr>
-                            <th style="width:16.5%;text-align: center;">Poisson's ratio(Metric)</th>
-                                    <th style="text-align: center;">Density(lb/ft3)(Metric)</th>
-                                    <th style="text-align: center;">Depth(ft)(Metric)</th>
-                                    <th style="text-align: center;">Pore Pressure(Mpa)(Metric)</th>
+                            <th style="width:16.5%;text-align: center;">Poisson's ratio</th>
+                                    <th style="text-align: center;">Density(kg/m3)</th>
+                                    <th style="text-align: center;">Depth(m)</th>
+                                    <th style="text-align: center;">Pore Pressure(Pa)</th>
 
                                     <th style="width:5%;text-align: center;"></th>
                             
@@ -61,10 +61,10 @@ thead, tbody tr {
                             </thead>
                               <thead   th:if="${session.unitType=='Field'}" class="bg-gray">
 							<tr>
-                            <th style="width:16.5%;text-align: center;">Poisson's ratio(field)</th>
-                                    <th style="text-align: center;">Density(lb/ft3)(field)</th>
-                                    <th style="text-align: center;">Depth(ft)(field)</th>
-                                    <th style="text-align: center;">Pore Pressure(Mpa)(field)</th>
+                            <th style="width:16.5%;text-align: center;">Poisson's ratio</th>
+                                    <th style="text-align: center;">Density(lb/ft3)</th>
+                                    <th style="text-align: center;">Depth(ft)</th>
+                                    <th style="text-align: center;">Pore Pressure(pa)</th>
 
                                     <th style="width:5%;text-align: center;"></th>
                             

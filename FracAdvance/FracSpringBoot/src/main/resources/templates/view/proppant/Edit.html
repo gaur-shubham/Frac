@@ -147,11 +147,11 @@ $("#pp_editsavebt").click(function(){
 												</select></td>
 
 											</tr>
-											<tr th:each="list:${list}">
-												<th th:text="${list.param}" th:if="${listStat.index}!=0"></th>
-												
-												<td th:if="${listStat.index}!=0"><input type="text" class="form-control" th:name="pp_editinput" th:value="${list.value}" style="border:none;"></td>
-		</tr>
+											<tr th:each="list,iterStat:${list}">
+													<th th:text="${list.param}+${paramUnitList[iterStat.index]}" ></th>
+<!-- th:if="${listStat.index}!=0" -->
+													<td th:text="${list.value}" ></td>
+												</tr>
 										</tbody>
 									</table>
 								</div>

@@ -155,7 +155,7 @@ $( "#importbutton" ).click(function() {
 			<div class="col-md-12" style="overflow-x: auto; overflow-y: hidden;">
 				<form id="ip_impmainform">
 					<table class="table table-hover table-bordered a">
-						<tr>
+						<tr th:if="${session.unitType=='Field'}">
 							<th nowrap="nowrap">&nbsp;&nbsp;&nbsp;Step&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<th nowrap="nowrap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fluid
 								Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -173,7 +173,26 @@ $( "#importbutton" ).click(function() {
 							<th >Elapsed Time</th>
 							<th></th>
 						</tr>
-
+	
+	
+	<tr th:if="${session.unitType=='Metric'}">
+							<th nowrap="nowrap">&nbsp;&nbsp;&nbsp;Step&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<th nowrap="nowrap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fluid
+								Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th nowrap="nowrap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stage
+								Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th >Rate(m3/min)</th>
+							<th >Clean Vol.(m3)</th>
+							<th >Slurry Vol.(m3)</th>
+							<th >Cumulative Slurry Vol.(m3)</th>
+							<th >Begin Proppant Conc.(Kg/m3)</th>
+							<th >End Proppant Conc.(Kg/m3)</th>
+							<th >Stage Prop(Kg)</th>
+							<th >Cumulative Prop(Kg)</th>
+							<th >Step Time</th>
+							<th >Elapsed Time</th>
+							<th></th>
+						</tr>
 						<tr th:each="list:${list}" th:if="${list}!=null">
 							<td><input type="text" min="0" max="" class="form-control"
 								name="" id="ip_impstep" th:value="${list.step}" required

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,9 @@ public class ProppantService {
 	ReservoirFluidRepo rfr;
 	@Autowired
 	NonDarcyRepo darcyRepo;
+	
+	@Autowired
+	HttpSession httpSession;
 
 	public List<ProppantModel> showList(Integer pid) {
 		ProjectDetails detail = detailRepo.findById(pid).orElse(null);
@@ -364,4 +368,26 @@ public class ProppantService {
 		map.put("Beta", beta.toString());
 		return map;
 	}
+	
+
+	public ArrayList<String> proppantParamList() 
+	{
+		ArrayList<String> aList=null;
+		ProjectDetails details=(ProjectDetails)httpSession.getAttribute("ProjectDetail");
+	    String uTypeDataBase= detailRepo.findById(details.getId()).get().getUnitType();
+	
+	if(uTypeDataBase.equalsIgnoreCase("Field"))
+	{	String [] a= {"","","(cm)","","(g/cm3)","(cm2)"};
+		aList = new ArrayList<String>(Arrays.asList(a));
+}
+
+	else if(uTypeDataBase.equalsIgnoreCase("Metric"))
+	{	String [] a= {"","","(inch)","","(lb/gal)","(mD)"};
+		aList = new ArrayList<String>(Arrays.asList(a));
+}
+	    return aList;
+	}
+	
+	
+	
 }

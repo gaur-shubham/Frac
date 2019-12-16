@@ -35,6 +35,8 @@ public class Proppant {
 		model.addAttribute("darcyList", proppantservice.showDarcy(pid));
 		model.addAttribute("eqtype", proppantservice.showEquation(pid));
 		model.addAttribute("darcyEqList", proppantservice.darcyEqList());
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+		
 		return map + "/import";
 	}
 
@@ -51,6 +53,8 @@ public class Proppant {
 		model.addAttribute("darcyList", proppantservice.showDarcy(pid));
 		model.addAttribute("eqtype", proppantservice.showEquation(pid));
 		model.addAttribute("darcyEqList", proppantservice.darcyEqList());
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
 		return map + "/import";
 	}
 
@@ -59,6 +63,8 @@ public class Proppant {
 		model.addAttribute("pid", pid);
 		model.addAttribute("list", proppantservice.showList(pid));
 		model.addAttribute("type", proppantservice.showList(pid).get(0).getParam());
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
 		return map + "/edit";
 	}
 
@@ -69,6 +75,8 @@ public class Proppant {
 		model.addAttribute("pid", pid);
 		model.addAttribute("list", proppantservice.showList(pid));
 		model.addAttribute("type", proppantservice.showList(pid).get(0).getParam());
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
 		return map + "/edit";
 	}
 
@@ -79,6 +87,8 @@ public class Proppant {
 		model.addAttribute("pid", pid);
 		model.addAttribute("list", proppantservice.showList(pid));
 		model.addAttribute("type", proppantservice.showList(pid).get(0).getParam());
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
 		return map + "/import";
 	}
 
@@ -91,6 +101,8 @@ public class Proppant {
 		model.addAttribute("wellType", proppantservice.getWellTypeFromReservoirFluidMethod(pid));
 		model.addAttribute("darcyList", proppantservice.showDarcy(pid));
 		model.addAttribute("eqtype", proppantservice.showEquation(pid));
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
 
 		return map + "/import";
 	}
@@ -106,6 +118,9 @@ public class Proppant {
 		model.addAttribute("wellType", proppantservice.getWellTypeFromReservoirFluidMethod(pid));
 		model.addAttribute("darcyList", proppantservice.showDarcy(pid));
 		model.addAttribute("eqtype", equation);
+		model.addAttribute("paramUnitList", proppantservice.proppantParamList());
+
+		
 		return map + "/import";
 	}
 }

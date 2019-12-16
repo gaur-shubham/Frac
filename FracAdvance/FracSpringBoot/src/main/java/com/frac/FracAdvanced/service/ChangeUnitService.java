@@ -9,11 +9,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.frac.FracAdvanced.model.FluidLibraryModel;
+import com.frac.FracAdvanced.model.MiniFracModel;
 import com.frac.FracAdvanced.model.ProjectDetails;
 import com.frac.FracAdvanced.model.ReservoirFluidModel;
 import com.frac.FracAdvanced.model.ReservoirLithologyModel;
 import com.frac.FracAdvanced.model.StressAnalysisModel;
 import com.frac.FracAdvanced.repository.FluidLibraryRepo;
+import com.frac.FracAdvanced.repository.MiniFracRepo;
 import com.frac.FracAdvanced.repository.ProjectDetailRepo;
 import com.frac.FracAdvanced.repository.ReservoirFluidRepo;
 import com.frac.FracAdvanced.repository.ReservoirLithologyRepo;
@@ -37,6 +39,11 @@ public class ChangeUnitService {
 	
 	@Autowired
 	FluidLibraryRepo fluidLibraryRepo;
+	
+	@Autowired
+	MiniFracRepo fracRepo;
+	
+	
 	ProjectDetails p1;
 	ProjectDetails pids;
 	String uTypeDataBase;
@@ -191,22 +198,15 @@ public class ChangeUnitService {
 		pids =(ProjectDetails)httpSession.getAttribute("ProjectDetail");
 		  int pid=pids.getId();
 		  List<FluidLibraryModel> list=fluidLibraryRepo.findByProId(pid);	
-          
-		  
-		  System.out.println("uTypeDataBase................"+uTypeDataBase);
-		  System.out.println("uType................"+uType);
-          
 		  
 			for(int i=0;i<list.size();i++)
 			{ String fluidLibraryList=   list.get(i).getParameter();	
 			
 			 if(uTypeDataBase.equals(uType)) { 
-				 System.out.println("do nothing....");
 				 } 
 			 else if(uType.equalsIgnoreCase("Field"))
 				{		
 				 
-				 System.out.println("field.........................");
 
 					if(fluidLibraryList.equalsIgnoreCase("Specific Gravity"))
 				{	
@@ -239,7 +239,6 @@ public class ChangeUnitService {
 			}
 				else if(uType.equalsIgnoreCase("Metric"))
 				{  
-					 System.out.println("metric.........................");
 
 					if(fluidLibraryList.equalsIgnoreCase("Specific Gravity"))
 					{	double d=Double.parseDouble(list.get(i).getValue())/(3.2);
@@ -269,12 +268,47 @@ public class ChangeUnitService {
 				    list.get(i).setValue(s);					
 				    fluidLibraryRepo.save(	list.get(i));	}
 					
-					
-				}	
-				
-		}
-		
-		
-	}
+				}}}
 	
+	///mini frac.....
+	public void changeMiniFracUnit(String uType)
+	{
+
+		  pids =(ProjectDetails)httpSession.getAttribute("ProjectDetail");
+		  int pid=pids.getId();
+		  List<MiniFracModel> list=fracRepo.findByProId(pid);	
+		  
+		  
+		  
+		  if(uTypeDataBase.equals(uType)) { 
+				 //System.out.println("do nothing....");
+				 } 
+			 else if(uType.equalsIgnoreCase("Field"))
+				{				
+				for(int i=0;i<list.size();i++)
+				{				
+					double d1=Double.parseDouble(list.get(i).getPressure())/(0.000145038);
+					double rounded1 = Math. round(d1 * 100.0) / 100.0;
+					String s1= Double.toString(rounded1);				  					
+				    list.get(i).setPressure(s1);					
+                    fracRepo.save(	list.get(i));
+					
+				}
+				 
+				// System.out.println("field....");
+}
+			 else if(uType.equalsIgnoreCase("Metric"))
+				{ for(int i=0;i<list.size();i++)
+				{				
+					double d1=Double.parseDouble(list.get(i).getPressure())*(0.000145038);
+					double rounded1 = Math. round(d1 * 100.0) / 100.0;
+					String s1= Double.toString(rounded1);				  					
+				    list.get(i).setPressure(s1);					
+                    fracRepo.save(	list.get(i));
+					
+				}
+				 //System.out.println("Metric....");
+				}
+				 
+	}
 }

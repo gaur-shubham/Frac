@@ -1,11 +1,7 @@
 
 /*****************~Stress Analysis~**********************/
-PoissonRatio0=8
-Density0=8
-Depth0=8
-PorePressure0=8
-PoissonRatio1=23
-Density1=23
-Depth1=22
-PorePressure1=2
+PoissonRatio0=11
+Density0=11
+Depth0=1
+PorePressure0=1
 //

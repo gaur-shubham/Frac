@@ -13,7 +13,11 @@ import com.frac.FracAdvanced.model.PhasingParamModel;
 import com.frac.FracAdvanced.model.ProjectDetails;
 import com.frac.FracAdvanced.model.ReportMakingModel;
 import com.frac.FracAdvanced.model.ReportParamModel;
+import com.frac.FracAdvanced.model.ReservoirFluidModel;
+import com.frac.FracAdvanced.repository.FluidLibraryRepo;
+import com.frac.FracAdvanced.repository.InjectionPlanRepo;
 import com.frac.FracAdvanced.repository.ProjectDetailRepo;
+import com.frac.FracAdvanced.repository.ReservoirFluidRepo;
 import com.frac.FracAdvanced.service.InjectionPlanService;
 import com.frac.FracAdvanced.service.PhasingParamService;
 import com.frac.FracAdvanced.service.ReportMakingService;
@@ -36,35 +40,82 @@ public class ReportParameters {
 	private InjectionPlanService planService;
 	@Autowired
 	private ReportMakingService makingService;
+	@Autowired
+	private ReservoirFluidRepo fluidRepo;
+	@Autowired
+	private ProjectDetailRepo detailRepo;
+	@Autowired
+	private InjectionPlanRepo planRepo;
+	@Autowired
+	private FluidLibraryRepo flr;
 
 	public void SaveParam(Integer pid) {
-		paramService.saveReportParam(pid, Formulae1());
+		paramService.saveReportParam(pid, Formulae1(pid));
 		paramService.saveReportParam1(pid, Formulae2(getPhasingDefault(pid)));
 		paramService.saveReportParam2(pid, calcFromInjection(pid));
 		paramService.saveReportParam3(pid, FractureMaxValue(pid));
 		
 	}
 
-	public Map<String, String> Formulae1() {
+	public Map<String, String> Formulae1(Integer pid) {
 		Map<String, String> map = new LinkedHashMap<>();
-		Double widthFL = 0.0, leakCoeff = 0.00025, injectTime = 132.0;
-		Double fracArea = 0.0, totalVol = 0.0, fracWidth = 0.4;
+		ProjectDetails detail = detailRepo.findById(pid).orElse(null);
+		List<InjectionPlanModel> injectionPlanModels = planRepo.findBydetails(detail);
+		List<ReservoirFluidModel> leakoffList = fluidRepo.findByParamAndDetails("Leak off Coefficient", detail);
+		List<ReservoirFluidModel> fracWidthList = fluidRepo.findByParamAndDetails("Fracture Width", detail);
+		List<ReservoirFluidModel> injVolList = fluidRepo.findByParamAndDetails("Volume of Injection", detail);
+		List<ReservoirFluidModel> proppPlaceList = fluidRepo.findByParamAndDetails("Areal Proppant Conc", detail);
+		List<ReservoirFluidModel> fracHeightList = fluidRepo.findByParamAndDetails("Fracture Height", detail);
+		List<ReservoirFluidModel> shearModList = fluidRepo.findByParamAndDetails("Shear Modulus", detail);
+		List<ReservoirFluidModel> maxPropConcList = fluidRepo.findByParamAndDetails("Max Proppant Conc", detail);
+		List<ReservoirFluidModel> flowRateList = fluidRepo.findByParamAndDetails("Injection Rate", detail);
+		
+		
+		
+		////RANDOM
+		System.out.println("injectionPlanModels >> "+leakoffList.get(0).getValue());
+		System.out.println("leakoff >> "+injectionPlanModels.get(injectionPlanModels.size()-1).getCumStepTime());
+		System.out.println("fracWidthList >> "+fracWidthList.get(0).getValue());
+		System.out.println("injVolList >> "+injVolList.get(0).getValue());
+		System.out.println("proppPlaceList >> "+proppPlaceList.get(0).getValue());
+		System.out.println("fracHeightList >> "+fracHeightList.get(0).getValue());
+		System.out.println("shearModList >> "+shearModList.get(0).getValue());
+		System.out.println("maxPropConcList >> "+maxPropConcList.get(0).getValue());
+		System.out.println("flowRateList >> "+flowRateList.get(0).getValue());
+		////RANDOM
+		
+		Double widthFL = 0.0, 
+				leakCoeff = Double.parseDouble(leakoffList.get(0).getValue()),     //0.00025, 
+				injectTime = Double.parseDouble(injectionPlanModels.get(injectionPlanModels.size()-1).getCumStepTime());//132.0;
+		Double fracArea = 0.0, totalVol = 0.0, 
+				fracWidth = Double.parseDouble(fracWidthList.get(0).getValue());   //0.4;
 		Double volumeFL = 0.0;
-		Double volInject = 110880.0, volPad = 0.0, volSand = 0.0;
-		Double sandMass = 700000.0;
+		Double volInject = Double.parseDouble(injVolList.get(0).getValue()),		//110880.0, 
+				volPad = 0.0, volSand = 0.0;
+		Double proppPlacement=Double.parseDouble(proppPlaceList.get(0).getValue()),
+				sandMass = 0.0;														//700000.0;
 		Double FracEfficiency = 0.0, FracEffPercent = 0.0;
 		Double exponent = 0.0;
 		Double halfLength = 0.0, fx = 0.0, x = 0.0;
-		Double flowRate = 20.0, fracHeight = 300.0;
+		Double flowRate = Double.parseDouble(flowRateList.get(0).getValue()),		//20.0, 
+				fracHeight = Double.parseDouble(fracHeightList.get(0).getValue());	//300.0;
 		Double pie = 3.14;
-		Double propWidth = 0.0, maxWidth = 0.0, shearMod = 2114583.333, maxPropConc = 8.0,avgWidth=0.0;
+		Double propWidth = 0.0, maxWidth = 0.0, 
+				shearMod = Double.parseDouble(shearModList.get(0).getValue()),		//2114583.333, 
+				maxPropConc = Double.parseDouble(maxPropConcList.get(0).getValue()),//8.0,
+				avgWidth=0.0;
 		Double propLength = 0.0;
-		Double avgVisco = 0.0, consistencyIndex = 0.03, powerLawIndex = 0.52;
+		Double avgVisco = 0.0, 
+				consistencyIndex = 0.03, 
+				powerLawIndex = 0.52;
 		Double effecFracHeight=0.0;
+		
 		Double volumeFLbarrel=0.0,totalVolbarrel=0.0;
 		Double widthErrorPercent=0.0,heightErrorPercent=0.0;
+		
 		widthFL = 3 * leakCoeff * Math.pow(injectTime, 0.5);
 		fracArea = (volInject / 7.48) / ((fracWidth / 12) + widthFL);
+		sandMass=fracArea/proppPlacement;
 		volumeFL = fracArea * widthFL * 7.48;
 		volumeFLbarrel=volumeFL/42;
 		FracEfficiency = (fracWidth / 12) / (widthFL + (fracWidth / 12));
@@ -88,6 +139,7 @@ public class ReportParameters {
 		
 		widthErrorPercent=((avgWidth-fracWidth)/fracWidth)*100;
 		heightErrorPercent=((effecFracHeight-fracHeight)/fracHeight)*100;
+		
 		map.put("Fracture Area(ft2)", fracArea.toString());
 		map.put("Volume Of Fluid Loss(bbl)", volumeFLbarrel.toString());
 		map.put("Fracture Efficiency(%)", FracEffPercent.toString());
@@ -129,6 +181,7 @@ public class ReportParameters {
 
 		Map<String, String> map = new LinkedHashMap<>();
 		Double angle = 0.0, alpha = 0.0, a1 = 0.0, a2 = 0.0, b1 = 0.0, b2 = 0.0, c1 = 0.0, c2 = 0.0;
+		
 		int i = 0;
 		if(value.size()>0) {
 		angle = Double.parseDouble(value.get(i++));
@@ -140,6 +193,7 @@ public class ReportParameters {
 		c1 = Double.parseDouble(value.get(i++));
 		c2 = Double.parseDouble(value.get(i));
 		}
+		
 		Double perfSkin = 0.0, horizontalSkin = 0.0, verticalSkin = 0.0, dimenQuantity = 0.0;
 		Double effectiveWellboreRad = 0.0, perfLen = 0.666667, wellboreRad = 0.328;
 		Double dimenRad = 0.0, perfRad = 0.020833, a = 0.0, b = 0.0;
@@ -147,6 +201,7 @@ public class ReportParameters {
 		Double dimenWellboreRad = 0.0;
 		Double perfFriction=0.0,flowRate=20.0,fluidDensity=9.97464,perfNo=30.0,perfDia=0.375,dischargeCoeff=0.0,visco=99.79853;
 		// Calculating Horizontal Skin
+		
 		if (angle == 0) {
 			effectiveWellboreRad = perfLen / 4;
 		} else {

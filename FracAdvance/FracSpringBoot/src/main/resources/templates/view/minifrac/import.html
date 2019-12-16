@@ -122,8 +122,14 @@ $("#mf_impaddfield").click(function(){
 				<div class="col-md-10">
 
 					<table class="table table-bordered">
-						<tr>
+						<tr   th:if="${session.unitType=='Field'}">
 							<th style="text-align: center">Pressure (psi)</th>
+							<th style="text-align: center">Shut In Time (Min)</th>
+							<th style="text-align: center"></th>
+						</tr>
+						
+						<tr   th:if="${session.unitType=='Metric'}">
+							<th style="text-align: center">Pressure (pa)</th>
 							<th style="text-align: center">Shut In Time (Min)</th>
 							<th style="text-align: center"></th>
 						</tr>

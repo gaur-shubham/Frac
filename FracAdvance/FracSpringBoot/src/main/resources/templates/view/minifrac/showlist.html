@@ -44,11 +44,15 @@ thead, tbody tr {
             <div class="col-md-10" >
             <table id="example2" class="table table-hover table-bordered ">
                             <thead  class="bg-gray">
-							<tr>
-                            		<th style="width:40%" class="text-center">Pressure (psi)</th>
-                            		<th style="width:40%" class="text-center">Shut In Time (Min)</th>
-                            		 
-                            </tr>
+							<tr   th:if="${session.unitType=='Field'}">
+							<th style="text-align: center">Pressure (psi)</th>
+							<th style="text-align: center">Shut In Time (Min)</th>
+						</tr>
+						
+						<tr   th:if="${session.unitType=='Metric'}">
+							<th style="text-align: center">Pressure (pa)</th>
+							<th style="text-align: center">Shut In Time (Min)</th>
+						</tr>
                             </thead>
                              <tbody >
                              <tr th:each="list : ${list}"  >

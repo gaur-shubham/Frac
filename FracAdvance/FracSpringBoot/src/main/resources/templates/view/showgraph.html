@@ -299,12 +299,14 @@ function StressGraph(dataprovider){
 	    "axisAlpha": 0,
 	    "reversed" : true,
 	    "position": "left",
-	    "title" :"Depth (m)"
+	    "title" :"Depth (m)",
+	    "minimum":0
 	  }, {
 	    "id": "ValueAxis-2",
 	    "axisAlpha": 0,
 	    "position": "top",
-	    "title" :"Pressure (Mpa)"
+	    "title" :"Pressure (Mpa)",
+	    "minimum":0
 	  }],
 	  "allLabels": [{
 		  	"text":"Stress Analysis",
@@ -375,12 +377,14 @@ function declinedCurveGraph(dataprovider){
 	    "id": "ValueAxis-1",
 	    "axisAlpha": 0,
 	    "position": "left",
-	    "title" :"Q(STB/Day)"
+	    "title" :"Q(STB/Day)",
+	    "minimum":0
 	  }, {
 	    "id": "ValueAxis-2",
 	    "axisAlpha": 0,
 	    "position": "bottom",
-	    	"title" :"Time(Year)"
+	    	"title" :"Time(Year)",
+		    "minimum":0
 	  }],
 	  "allLabels": [{
 		  	"text":"Declined Curve",
@@ -518,12 +522,14 @@ function PNetGraph(dataprovider){
 				    "position":"left",
 				    "title":"Net Pressure(psi)",
 		    "axisAlpha": 1,
+		    "minimum":0
 		  }, {
 		    "id": "ValueAxis",
 		    "axisAlpha": 1,
 		    "baseValue": 0,
 		    "position": "bottom",
-		    "title":"Time(Min)"
+		    "title":"Time(Min)",
+		    "minimum":0
 		  }],
 		  "allLabels": [],
 		  "titles": [],
@@ -591,12 +597,14 @@ function HalfLenGraph(dataprovider){
 				    "position":"left",
 				    "title":"Half Length(feet)",
 		    "axisAlpha": 1,
+		    "minimum":0
 		  }, {
 		    "id": "ValueAxis",
 		    "axisAlpha": 1,
 		    "baseValue": 0,
 		    "position": "bottom",
-		    "title":"Time(Min)"
+		    "title":"Time(Min)",
+		    "minimum":0
 		  }],
 		  "allLabels": [],
 		  "titles": [],
@@ -664,12 +672,14 @@ function conductivityGraph(dataprovider){
 				    "position":"left",
 				    "title":"Conductivity (md-ft)",
 		    "axisAlpha": 1,
+		    "minimum":0
 		  }, {
 		    "id": "ValueAxis",
 		    "axisAlpha": 1,
 		    "baseValue": 0,
 		    "position": "bottom",
-		    "title":"Time(Min)"
+		    "title":"Time(Min)",
+		    "minimum":0
 		  }],
 		  "allLabels": [],
 		  "titles": [],
@@ -736,12 +746,14 @@ function widthGraph(dataprovider){
 				    "position":"left",
 				    "title":"Width(m)",
 		    "axisAlpha": 1,
+		    "minimum":0
 		  }, {
 		    "id": "ValueAxis",
 		    "axisAlpha": 1,
 		    "baseValue": 0,
 		    "position": "bottom",
-		    "title":"Time(Min)"
+		    "title":"Time(Min)",
+		    "minimum":0
 		  }],
 		  "allLabels": [],
 		  "titles": [],

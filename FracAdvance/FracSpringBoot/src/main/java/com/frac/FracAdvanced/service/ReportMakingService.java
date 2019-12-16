@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.frac.FracAdvanced.model.FluidLibraryModel;
 import com.frac.FracAdvanced.model.InjectionPlanModel;
+import com.frac.FracAdvanced.model.ProjectDetails;
 import com.frac.FracAdvanced.model.ReportMakingModel;
 import com.frac.FracAdvanced.model.ReservoirLithologyModel;
 import com.frac.FracAdvanced.model.StressAnalysisModel;
@@ -50,12 +53,12 @@ public class ReportMakingService {
 	ProppantRepo propantr;
 	@Autowired
 	OutputWellForcastRepo outputWellForcastRepo;
-	
 	@Autowired
 	ReservoirLithologyRepo lithologyRepo;
-	
 	@Autowired
 	StressAnalysisRepo stressRepo;
+	@Autowired
+	HttpSession httpSession;
 	
 	ReportMakingModel m1 = new ReportMakingModel();
 
@@ -139,46 +142,46 @@ public class ReportMakingService {
 
 		}
 
-		String k1 = rfr.findByParamAndDetails("Reservoir Permability", pdr.getOne(pid)).get(0).getValue();//
-		if ("0.0".equalsIgnoreCase(k1) | k1.isEmpty() | k1.matches("^[a-zA-Z]*$")) {
+		    String k1 = rfr.findByParamAndDetails("Reservoir Permability", pdr.getOne(pid)).get(0).getValue();//
+		    if ("0.0".equalsIgnoreCase(k1) | k1.isEmpty() | k1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Reservoir Permeability(md) From Reservoir Fluid Properties", "Reservoir Fluid");
 		}
 
-		String h1 = rfr.findByParamAndDetails("Fracture Gross Height", pdr.getOne(pid)).get(0).getValue();//
-		if ("0.0".equalsIgnoreCase(h1) | h1.isEmpty() | h1.matches("^[a-zA-Z]*$")) {
+		    String h1 = rfr.findByParamAndDetails("Fracture Gross Height", pdr.getOne(pid)).get(0).getValue();//
+		    if ("0.0".equalsIgnoreCase(h1) | h1.isEmpty() | h1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Fracture Gross Height(feet) From Reservoir Fluid Properties", "Reservoir Fluid");
 		}
 
-		String C1 = rfr.findByParamAndDetails("Leak off Coefficient", pdr.getOne(pid)).get(0).getValue();// C
-		if ("0.0".equalsIgnoreCase(C1) | C1.isEmpty() | C1.matches("^[a-zA-Z]*$")) {
+		    String C1 = rfr.findByParamAndDetails("Leak off Coefficient", pdr.getOne(pid)).get(0).getValue();// C
+	     	if ("0.0".equalsIgnoreCase(C1) | C1.isEmpty() | C1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Leak off Coefficient(ft/min^0.5) From Reservoir Fluid Properties", "Reservoir Fluid");
 
 		}
 
-		String V1 = rfr.findByParamAndDetails("Poisons Ratio", pdr.getOne(pid)).get(0).getValue();//
-		if ("0.0".equalsIgnoreCase(V1) | V1.isEmpty() | V1.matches("^[a-zA-Z]*$")) {
+	    	String V1 = rfr.findByParamAndDetails("Poisons Ratio", pdr.getOne(pid)).get(0).getValue();//
+	     	if ("0.0".equalsIgnoreCase(V1) | V1.isEmpty() | V1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Poisons Ratio From Reservoir Fluid Properties", "Reservoir Fluid");
 		}
 
-		String G1 = rfr.findByParamAndDetails("Shear Modulus", pdr.getOne(pid)).get(0).getValue();//
-		if ("0.0".equalsIgnoreCase(G1) | G1.isEmpty() | G1.matches("^[a-zA-Z]*$")) {
+		    String G1 = rfr.findByParamAndDetails("Shear Modulus", pdr.getOne(pid)).get(0).getValue();//
+		    if ("0.0".equalsIgnoreCase(G1) | G1.isEmpty() | G1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Shear Modulus(psi) From Reservoir Fluid Properties", "Reservoir Fluid");
 		}
 
-		String u1 = fluidLR.findByProId(pid).get(0).getFluidTypeSelected();
-		List<FluidLibraryModel> f12 = fluidLR.findByPidFLAndType(pdr.getOne(pid), u1);
-		if (true == f12.isEmpty()) {
+	    	String u1 = fluidLR.findByProId(pid).get(0).getFluidTypeSelected();
+	    	List<FluidLibraryModel> f12 = fluidLR.findByPidFLAndType(pdr.getOne(pid), u1);
+	    	if (true == f12.isEmpty()) {
 			mapList.put("The fluid is not sellected from Fluid Library", "Fluid Library");
 
 		}
 
-		String dp1 = propantr.findByParamAndDetails("Poppant Diameter (Inch)", pdr.getOne(pid)).get(0).getValue();
-		if (dp1 == null | dp1.isEmpty() | dp1.matches("^[a-zA-Z]*$")) {
+	    	String dp1 = propantr.findByParamAndDetails("Poppant Diameter", pdr.getOne(pid)).get(0).getValue();
+	    	if (dp1 == null | dp1.isEmpty() | dp1.matches("^[a-zA-Z]*$")) {
 			mapList.put("Poppant Diameter From Poppant Properties", "Poppant Properties");
 		}
 
-		String fy1 = propantr.findByParamAndDetails("Specific Gravity", pdr.getOne(pid)).get(0).getValue();
-		if (fy1 == null | fy1.isEmpty() | fy1.matches("^[a-zA-Z]*$")) {
+	    	String fy1 = propantr.findByParamAndDetails("Specific Gravity", pdr.getOne(pid)).get(0).getValue();
+		    if (fy1 == null | fy1.isEmpty() | fy1.matches("^[a-zA-Z]*$")) {
 			arraylist.add("Specific Gravity From Poppant Properties");
 			arraySet.add("Poppant Properties");
 			mapList.put("Specific Gravity From Poppant Properties", "Poppant Properties");
@@ -198,8 +201,23 @@ public class ReportMakingService {
 		double u = Double.parseDouble(u12) / 1000;
 		double dp = Double.parseDouble(dp1) * 2.54;
 		double fy = Double.parseDouble(fy1);
+		///// change the unit from field to metric............
+		 
+	    ProjectDetails details=	(ProjectDetails)httpSession.getAttribute("ProjectDetail");
+	    String unitType=details.getUnitType();
+		if(unitType.equalsIgnoreCase("Field"))
+		{
+			rw=rw*0.3;
+			re=re*0.3;
+			A=A*4046.86;
+			h=h*0.3;
+			G=G*6894.76;
+			u=u*6894.76;
+			dp=dp*0.393701;
+		}
+		
 		if (C1.equals("null")) {
-			for (int i = 0; i < x.size(); i++) {
+			    for (int i = 0; i < x.size(); i++) {
 				String q1 = x.get(i).getRate();
 				double qi = Double.parseDouble(q1) / 377.89;
 				String t1 = x.get(i).getCumStepTime();
@@ -216,7 +234,17 @@ public class ReportMakingService {
 						((Math.pow(G, 4) * u * Math.pow(qi, 2)) / (Math.pow((1 - V), 4) * (Math.pow(LT, 6)))), 0.2))
 						* Math.pow(t, 0.2);
 				pnet = pnet * 0.000145; /// Psi
-
+/////change unit from metric to field befor storing.................
+				
+				
+				if(unitType.equalsIgnoreCase("Field"))
+				{
+					LT=LT*3.2;
+					W=W*0.39;
+					kf=kf*101325000000.0;
+					pnet=pnet*0.000145038;			}
+				
+				
 				ReportMakingModel r1 = new ReportMakingModel();
 				r1.setLT(LT);
 				r1.setW(Double.toString(W));
@@ -267,6 +295,17 @@ public class ReportMakingService {
 					double foi = (Math.log10(re / rw)) / ((Math.log10(re / rw)) + shubham);
 
 				}
+				
+			/////change unit from metric to field befor storing.................
+				
+				
+							if(unitType.equalsIgnoreCase("Field"))
+							{
+								LT=LT*3.2;
+								W=W*0.39;
+								kf=kf*101325000000.0;
+								pnet=pnet*0.000145038;			}
+							
 				ReportMakingModel r1 = new ReportMakingModel();
 				r1.setLT(LT);
 				r1.setW(Double.toString(W));

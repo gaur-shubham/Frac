@@ -31,7 +31,6 @@ public class ReservoirFluidService {
 	public java.util.List<ReservoirFluidModel> getListMethod(int pid, String ftype, String radioValue)
 			throws Exception {
 		ArrayList<ReservoirFluidModel> a1 = new ArrayList<ReservoirFluidModel>();
-
 		java.util.List<ReservoirFluidModel> x12 = fluidRepo.findByFluidtypeAndDetails(ftype, detailRepo.getOne(pid));
 		return x12;		
 	}
@@ -47,47 +46,47 @@ public class ReservoirFluidService {
 		return x123;
 	}
 
-	public void methodEditWellTypeSelected(int pid, String wellTypeSelected, String ftype) throws Exception {
-
+	    public void methodEditWellTypeSelected(int pid, String wellTypeSelected, String ftype) throws Exception {
 		ProjectDetails p1 = detailRepo.getOne(pid);
 		List<ReservoirFluidModel> all = fluidRepo.findBydetails(p1);
 		for (int i = 0; i < all.size(); i++) {
 			all.get(i).setWellTypeSelected(wellTypeSelected);
 			fluidRepo.save(all.get(i));
 		}
-	}
+	    }
 	
-	public ArrayList<String> RfParamList(String rf3Type, int pid) throws Exception
-	{ArrayList<String> aList=null;
+	        public ArrayList<String> RfParamList(String rf3Type, int pid) throws Exception
+	        {ArrayList<String> aList=null;
+	        String uTypeDataBase= detailRepo.findById(pid).get().getUnitType();
+	        if(uTypeDataBase.equalsIgnoreCase("Field"))
 	
-
-	String uTypeDataBase= detailRepo.findById(pid).get().getUnitType();
-	
-	if(uTypeDataBase.equalsIgnoreCase("Field"))
-	
-	{	if(rf3Type.equalsIgnoreCase("Reservoir properties"))
+	    {	if(rf3Type.equalsIgnoreCase("Reservoir properties"))
 		{
-		String [] a= {"(psi)","(psi)"," (psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)"};
-		aList = new ArrayList<String>(Arrays.asList(a));}
-		else if(rf3Type.equalsIgnoreCase("Fracture Mechanics Properties"))
-		{	String [] a= {"(psi)","(psi)"," (psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)"};
-		 aList = new ArrayList<String>(Arrays.asList(a));}
-		else if(rf3Type.equalsIgnoreCase("Optimum Fracture Design Input"))
-		{	String [] a= {"(psi)","(psi)"," (psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)","(psi)"};
-		 aList = new ArrayList<String>(Arrays.asList(a));}
+		    String [] a= {"(psi)","(psi)"," (F)","","(md)","","","","","","(cp)","(cp)","","","","","(Feet)","(Feet)","(Acre)"};
+		    aList = new ArrayList<String>(Arrays.asList(a));}
+		    else if(rf3Type.equalsIgnoreCase("Fracture Mechanics Properties"))
+		{	
+			String [] a= {"(inch)"," (psi)"," (psi)","","(psi)"," (psi)","","(Feet)","(Feet)","",""};
+		    aList = new ArrayList<String>(Arrays.asList(a));}
+		    else if(rf3Type.equalsIgnoreCase("Optimum Fracture Design Input"))
+		{	
+			String [] a= {"(lb/gal)"," (Feet)"," (inch)","Feet3","(lb/Feet2)"," (lb/Feet2)"," (%)"};
+			aList = new ArrayList<String>(Arrays.asList(a));}
 	}	
 	
-	else if (uTypeDataBase.equalsIgnoreCase("Metric"))
-	{if(rf3Type.equalsIgnoreCase("Reservoir properties"))
+	        else if (uTypeDataBase.equalsIgnoreCase("Metric"))
+	        {if(rf3Type.equalsIgnoreCase("Reservoir properties"))
 	{
-	String [] a= {"(metric)","(matric)"," (F)"," (%)"," (md)","matric","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)"};
-	aList = new ArrayList<String>(Arrays.asList(a));}
-	else if(rf3Type.equalsIgnoreCase("Fracture Mechanics Properties"))
-	{	String [] a= {"(metric)","(matric)"," (F)"," (%)"," (md)","matric","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)"};
-	 aList = new ArrayList<String>(Arrays.asList(a));}
-	else if(rf3Type.equalsIgnoreCase("Optimum Fracture Design Input"))
-	{	String [] a= {"(metric)","(matric)"," (F)"," (%)"," (md)","matric","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)","(metric)"};
-	 aList = new ArrayList<String>(Arrays.asList(a));}
+		String [] a= {"(pa)","(pa)"," (R)","","(cm2)","","","","","","(Pa.S)","(Pa.S)","","","","","(m)","(m)","(m2)"};
+		aList = new ArrayList<String>(Arrays.asList(a));}
+	    else if(rf3Type.equalsIgnoreCase("Fracture Mechanics Properties"))
+	{	
+		String [] a= {"(m)"," (Pa)"," (Pa)","","(Pa)"," (Pa)","","(m)","(m)","",""};
+	    aList = new ArrayList<String>(Arrays.asList(a));}
+	    else if(rf3Type.equalsIgnoreCase("Optimum Fracture Design Input"))
+	{	
+		String [] a= {"(kg/m3)"," (m)"," (m)","m3","(kg/m2)"," (kg/m3)"," (%)"};
+	    aList = new ArrayList<String>(Arrays.asList(a));}
 }
 		
 	

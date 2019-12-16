@@ -192,17 +192,17 @@ public class FluidLibraryService {
 		
 	public ArrayList<String> fluidUnitList() throws Exception
 	{ArrayList<String> aList=null;
-	
-	ProjectDetails details=(ProjectDetails)httpsession.getAttribute("projectDetail");
-	String uTypeDataBase= details.getUnitType();
+	ProjectDetails details=(ProjectDetails)httpsession.getAttribute("ProjectDetail");
+	ProjectDetails p= pdr.findById(details.getId()).orElse(details);
+	String uTypeDataBase=	p.getUnitType();
 	if(uTypeDataBase.equalsIgnoreCase("Field"))
 	
 	{	
-		String [] a= {"(psi)","(psi)"," (psi)","(psi)"};
+		String [] a= {"(cp)",""," (ib/gal)","(F)"};
 		aList = new ArrayList<String>(Arrays.asList(a));}	
 			
 	else if (uTypeDataBase.equalsIgnoreCase("Metric"))
-	{	String [] a= {"(metric)","(matric)","(metric)","(metric)"};
+	{	String [] a= {"(Pa.s)","","(Kg/m3)","(C)"};
 	 aList = new ArrayList<String>(Arrays.asList(a));}
 
     return aList;

@@ -64,8 +64,13 @@ thead, tbody tr {
             <div class="col-md-10">
             <table id="example2" class="table table-hover table-bordered" >
                             <thead  class="bg-gray">
-							<tr>
+							<tr th:if="${session.unitType=='Field'}">
                             		<th class="text-center">Pressure (psi)</th>
+                            		<th  class="text-center">Shut In Time (Min)</th>
+                            		<th style="width:10%"class="text-center">Delete</th>
+                            </tr>
+                            <tr th:if="${session.unitType=='Metric'}">
+                            		<th class="text-center">Pressure (Pa)</th>
                             		<th  class="text-center">Shut In Time (Min)</th>
                             		<th style="width:10%"class="text-center">Delete</th>
                             </tr>

@@ -22,18 +22,18 @@ edit
 <form id="rl_mainform">
 <input type="hidden" id="rl_editpid" th:name="pid" th:value="${pid}">
 <table id="example2" class="table table-hover table-bordered" >
-                             <thead  th:if="${session.unitType=='Metric'}"><tr>
+                              <thead  th:if="${session.unitType=='Metric'}"><tr>
 								<th style="text-align:center;">Stage<br>&nbsp;&nbsp;&nbsp;</th>
-									<th style="text-align: center;">&nbsp;&nbsp;&nbsp;TVD&nbsp;&nbsp;&nbsp;<br>(meter)</th>
-								<th nowrap style="text-align: center;">&nbsp;&nbsp;&nbsp;MD&nbsp;&nbsp;&nbsp;<br>(meter)</th>
+									<th style="text-align: center;">&nbsp;&nbsp;&nbsp;TVD&nbsp;&nbsp;&nbsp;<br>(m)</th>
+								<th nowrap style="text-align: center;">&nbsp;&nbsp;&nbsp;MD&nbsp;&nbsp;&nbsp;<br>(m)</th>
 								<th nowrap style="text-align: center;">Layer
-									Thickness<br>(meter)</th>
+									Thickness<br>(m)</th>
 								<th nowrap style="text-align: center;">Rock
 									Type<br>&nbsp;</th>
-								<th nowrap style="text-align: center;">Permiability<br>(meter)</th>
+								<th nowrap style="text-align: center;">Permiability<br>(m2)</th>
 								<th nowrap style="text-align: center;">Porosity<br>&nbsp;</th>
 								<th nowrap style="text-align: center;">Leakoff
-									Coefficient<br>meter</th>
+									Coefficient<br>(m/(min)1/2)</th>
 								<th nowrap style="	text-align: center;">Youngs
 									Modulus meter<br>&nbsp;</th>
 							</tr>
